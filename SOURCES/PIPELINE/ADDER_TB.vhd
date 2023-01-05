@@ -1,0 +1,92 @@
+-------------------------------------------------------------------------------
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+-------------------------------------------------------------------------------
+ENTITY ADDER_TB IS
+END ADDER_TB;
+-------------------------------------------------------------------------------
+ARCHITECTURE behavior OF ADDER_TB IS
+
+	-- Component Declaration for the Unit Under Test (UUT)
+	
+	COMPONENT ADDER
+	PORT (
+		A		: IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+		B		: IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+		Output	: OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+	);
+	END COMPONENT;
+	
+	--Inputs
+	SIGNAL A		: STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
+	SIGNAL B		: STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
+	
+	--Outputs
+	SIGNAL Output	: STD_LOGIC_VECTOR(31 DOWNTO 0);
+
+BEGIN
+	-- Instantiate the Unit Under Test (UUT)
+	uut : ADDER
+	PORT MAP (
+		A		=> A, 
+		B		=> B, 
+		Output	=> Output
+	);
+	
+	-- Stimulus process
+	stim_proc : PROCESS
+	BEGIN
+		-- stimulus here
+		-- 0 + 0
+		A <= "00000000000000000000000000000000";
+		B <= "00000000000000000000000000000000";
+		WAIT FOR 100 ns;
+		
+		-- max.no + max.n0
+		A <= "01111111111111111111111111111111";
+		B <= "01111111111111111111111111111111";
+		WAIT FOR 100 ns;
+		-- max.no + (max.n0 - 1)
+		A <= "01111111111111111111111111111111";
+		B <= "01111111111111111111111111111110";
+		WAIT FOR 100 ns;
+		-- max.no + 1
+		A <= "01111111111111111111111111111111";
+		B <= "00000000000000000000000000000001";
+		WAIT FOR 100 ns;
+		
+		A <= "00000000001100001111100000011001";
+		B <= "00000001111100011001110000010001";
+		WAIT FOR 100 ns;
+		
+		-- 15 + 3
+		A <= "00000000000000000000000000001111";
+		B <= "00000000000000000000000000000011";
+		WAIT FOR 100 ns;
+		
+		-- Min.no + Min.no
+		A <= "10000000000000000000000000000000";
+		B <= "10000000000000000000000000000000";
+		WAIT FOR 100 ns;
+		
+		-- (-1) + (-1)
+		A <= "11111111111111111111111111111111";
+		B <= "11111111111111111111111111111111";
+		WAIT FOR 100 ns;
+		
+		-- (-1) + max.no
+		A <= "11111111111111111111111111111111";
+		B <= "01111111111111111111111111111111";
+		WAIT FOR 100 ns;
+		
+		A <= "00000000000000001100000010100111";
+		B <= "00000000000000000001000000000100";
+		WAIT FOR 100 ns;
+		
+		A <= "00000000000000001100000010100111";
+		B <= "00000000000010000001000000000100";
+		WAIT FOR 100 ns;
+		WAIT;
+	END PROCESS;
+END;
+-------------------------------------------------------------------------------
